@@ -13,7 +13,6 @@ class EigenFaces(object):
     #def __init__(self):
         #self._training_images = training_images
 
-
     def read_images(self, path, sz=None):
         """Reads the images in a given folder, resizes images on the fly if size is given.
 
@@ -68,8 +67,6 @@ class EigenFaces(object):
 
         # returns the images as a List of arrays; returns the class matrices to be projected and averaged
         return [X,y], class_matrices_list
-
-
 
     def train(self, root_training_images_folder):
         list_of_arrays_of_images = []
@@ -131,8 +128,6 @@ class EigenFaces(object):
 
         #show()
 
-
-
     def extract(self,X):
         X = np.asarray(X).reshape(-1,1)
         return self.projectImage(X)
@@ -145,11 +140,9 @@ class EigenFaces(object):
         X = np.dot(X, self.eigenfacesMatrix)
         return X + self.mean_Image
 
-
     def getTargetImages(self):
         targetImageList = glob.glob('target_image/*.pgm')  # folder containing the traget image
         return targetImageList
-
 
     def predictFace(self, X):
         minClass = -1
@@ -167,7 +160,6 @@ class EigenFaces(object):
         img.show()
         return minClass
 
-
     def predictRace(self, X):
         return np.minTarget
 
@@ -182,8 +174,6 @@ class EigenFaces(object):
         averagedClass = np.divide(addSamplesTogether, l)
 
         return averagedClass
-
-
 
     def __repr__(self):
         return "PCA (num_components=%d)" % (self._num_components)
