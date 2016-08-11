@@ -10,9 +10,6 @@ import pca
 
 
 class EigenFaces(object):
-    #def __init__(self):
-        #self._training_images = training_images
-
     def read_images(self, path, sz=None):
         """Reads the images in a given folder, resizes images on the fly if size is given.
 
@@ -37,12 +34,10 @@ class EigenFaces(object):
                     if filename != ".DS_Store":
                         try:
                             im = Image.open(os.path.join(subject_path, filename))
-                            #im = im.convert("L")
                             # resize to given size (if given) e.g., sz = (480, 640)
                             if (sz is not None):
                                 im = im.resize(sz, Image.ANTIALIAS)
                             X.append(np.asarray(im, dtype = np.uint8))
-                            #y.append(classLabel)
 
                         except IOError as e:
                             errno, strerror = e.args
@@ -61,7 +56,6 @@ class EigenFaces(object):
                 class_matrices_list.append(class_samples_matrix)
 
                 y.append(subdirname)
-                #classLabel = classLabel + 1
 
         self.number_of_classes = len(class_matrices_list)
 
@@ -114,8 +108,6 @@ class EigenFaces(object):
         for i in range(7):
             pylab.subplot(2,4,i+2)
             pylab.imshow(self.eigenfacesMatrix[i].reshape(m,n))
-
-        #show()
 
     def extract(self,X):
         X = np.asarray(X).reshape(-1,1)
