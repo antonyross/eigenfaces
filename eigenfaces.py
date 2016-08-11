@@ -49,9 +49,10 @@ class EigenFaces(object):
                                 im = im.resize(sz, Image.ANTIALIAS)
                             X.append(np.asarray(im, dtype = np.uint8))
                             #y.append(classLabel)
-                            
-                        except IOError, (errno, strerror):
-                            print "I/O error({0}): {1}".format(errno, strerror)
+
+                        except IOError as e:
+                            errno, strerror = e.args
+                            print("I/O error({0}): {1}".format(errno, strerror))
                         except:
                             print "Unexpected error:", sys.exc_info()[0]
                             raise
