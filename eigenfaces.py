@@ -25,7 +25,7 @@ class EigenFaces(object):
         """
         classSamplesList = []
         class_matrices_list = []
-        X,y = [], []
+        X, y = [], []
         for dirname, dirnames, filenames in os.walk(path):
             for subdirname in dirnames:
                 subject_path = os.path.join(dirname, subdirname)
@@ -60,7 +60,7 @@ class EigenFaces(object):
         self.number_of_classes = len(class_matrices_list)
 
         # returns the images as a List of arrays; returns the class matrices to be projected and averaged
-        return [X,y], class_matrices_list
+        return [X, y], class_matrices_list
 
     def train(self, root_training_images_folder):
         list_of_arrays_of_images = []
@@ -101,16 +101,16 @@ class EigenFaces(object):
 
         pylab.gray()
 
-        pylab.subplot(2,4,1)
+        pylab.subplot(2, 4, 1)
 
         pylab.imshow(self.mean_Image.reshape(m,n))
 
         for i in range(7):
-            pylab.subplot(2,4,i+2)
-            pylab.imshow(self.eigenfacesMatrix[i].reshape(m,n))
+            pylab.subplot(2, 4, i+2)
+            pylab.imshow(self.eigenfacesMatrix[i].reshape(m, n))
 
     def extract(self,X):
-        X = np.asarray(X).reshape(-1,1)
+        X = np.asarray(X).reshape(-1, 1)
         return self.project_image(X)
 
     def project_image(self, X):
@@ -147,7 +147,7 @@ class EigenFaces(object):
     def get_class_average_from_samples(classSamples):
         m, n = np.array(classSamples).shape[1:3]
         l = len(classSamples)
-        addSamplesTogether = np.zeros((m,n))
+        addSamplesTogether = np.zeros((m, n))
 
         for a in classSamples:
             addSamplesTogether = np.add(addSamplesTogether, a)
