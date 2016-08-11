@@ -40,7 +40,7 @@ class EigenFaces(object):
                 subject_path = os.path.join(dirname, subdirname)
                 classSamplesList = []
                 for filename in os.listdir(subject_path):
-                    if filename <> ".DS_Store":
+                    if filename != ".DS_Store":
                         try:
                             im = Image.open(os.path.join(subject_path, filename))
                             #im = im.convert("L")
@@ -49,11 +49,12 @@ class EigenFaces(object):
                                 im = im.resize(sz, Image.ANTIALIAS)
                             X.append(np.asarray(im, dtype = np.uint8))
                             #y.append(classLabel)
-                            
-                        except IOError, (errno, strerror):
-                            print "I/O error({0}): {1}".format(errno, strerror)
+
+                        except IOError as e:
+                            errno, strerror = e.args
+                            print("I/O error({0}): {1}".format(errno, strerror))
                         except:
-                            print "Unexpected error:", sys.exc_info()[0]
+                            print("Unexpected error:", sys.exc_info()[0])
                             raise
                         # adds each sample within a class to this List
                         classSamplesList.append(np.asarray(im, dtype = np.uint8))
