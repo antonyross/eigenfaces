@@ -23,13 +23,13 @@ class EigenFaces(object):
                 X: The images, which is a Python list of numpy arrays.
                 y: The corresponding labels (the unique number of the subject, person).
         """
-        classSamplesList = []
+        class_samples_list = []
         class_matrices_list = []
         X, y = [], []
         for dirname, dirnames, filenames in os.walk(path):
             for subdirname in dirnames:
                 subject_path = os.path.join(dirname, subdirname)
-                classSamplesList = []
+                class_samples_list = []
                 for filename in os.listdir(subject_path):
                     if filename != ".DS_Store":
                         try:
@@ -46,11 +46,11 @@ class EigenFaces(object):
                             print("Unexpected error:", sys.exc_info()[0])
                             raise
                         # adds each sample within a class to this List
-                        classSamplesList.append(np.asarray(im, dtype = np.uint8))
+                        class_samples_list.append(np.asarray(im, dtype = np.uint8))
 
                 # flattens each sample within a class and adds the array/vector to a class matrix
                 class_samples_matrix = np.array([img.flatten()
-                    for img in classSamplesList],'f')
+                    for img in class_samples_list],'f')
 
                  # adds each class matrix to this MASTER List
                 class_matrices_list.append(class_samples_matrix)
@@ -81,12 +81,12 @@ class EigenFaces(object):
               for im in list_of_arrays_of_images],'f')
 
         # perform PCA
-        self.eigenfacesMatrix, variance, self.mean_Image = pca.pca(images_matrix)
+        self.eigenfaces_matrix, variance, self.mean_Image = pca.pca(images_matrix)
 
         # Projecting each class sample (as class matrix) and then using the class average as the class weights for comparison with the Target image
-        numberOfClasses = len(list_of_matrices_of_flattened_class_samples)
+        number_of_classes = len(list_of_matrices_of_flattened_class_samples)
 
-        for i in range(numberOfClasses):
+        for i in range(number_of_classes):
             class_weights_vertex = self.project_image(list_of_matrices_of_flattened_class_samples[i])
             self.projected_classes.append(class_weights_vertex.mean(0))
 
@@ -107,7 +107,7 @@ class EigenFaces(object):
 
         for i in range(7):
             pylab.subplot(2, 4, i+2)
-            pylab.imshow(self.eigenfacesMatrix[i].reshape(m, n))
+            pylab.imshow(self.eigenfaces_matrix[i].reshape(m, n))
 
     def extract(self,X):
         X = np.asarray(X).reshape(-1, 1)
@@ -115,43 +115,43 @@ class EigenFaces(object):
 
     def project_image(self, X):
         X = X - self.mean_Image
-        return np.dot(X, self.eigenfacesMatrix.T)
+        return np.dot(X, self.eigenfaces_matrix.T)
 
     def reconstruct(self, X):
-        X = np.dot(X, self.eigenfacesMatrix)
+        X = np.dot(X, self.eigenfaces_matrix)
         return X + self.mean_Image
 
     def get_target_images(self):
         return glob.glob('target_image/*.pgm')
 
     def predict_face(self, X):
-        minClass = -1
-        minDistance = np.finfo('float').max
+        min_class = -1
+        min_distance = np.finfo('float').max
         projected_target = self.project_image(X)
         # delete last array item, it's nan
         projected_target = np.delete(projected_target, -1)
         for i in range(len(self.projected_classes)):
             distance = np.linalg.norm(projected_target - np.delete(self.projected_classes[i], -1))
-            if distance < minDistance:
-                minDistance = distance
-                minClass = self.labels_list[i]
-        predictedImg = "training_images/%s/1.pgm" % (minClass)
-        img = Image.open(predictedImg)
+            if distance < min_distance:
+                min_distance = distance
+                min_class = self.labels_list[i]
+        predicted_img = "training_images/%s/1.pgm" % (min_class)
+        img = Image.open(predicted_img)
         img.show()
-        return minClass
+        return min_class
 
     def predict_race(self, X):
-        return np.minTarget
+        return np.min_target
 
-    def get_class_average_from_samples(classSamples):
-        m, n = np.array(classSamples).shape[1:3]
-        l = len(classSamples)
-        addSamplesTogether = np.zeros((m, n))
+    def get_class_average_from_samples(class_samples):
+        m, n = np.array(class_samples).shape[1:3]
+        l = len(class_samples)
+        add_samples_together = np.zeros((m, n))
 
-        for a in classSamples:
-            addSamplesTogether = np.add(addSamplesTogether, a)
+        for a in class_samples:
+            add_samples_together = np.add(add_samples_together, a)
 
-        averagedClass = np.divide(addSamplesTogether, l)
+        averagedClass = np.divide(add_samples_together, l)
 
         return averagedClass
 
