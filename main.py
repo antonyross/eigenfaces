@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Antony Ross
-
-"""
-
 import eigenfaces
 
 

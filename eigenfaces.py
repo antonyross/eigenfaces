@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Antony Ross
-
-"""
-
 from PIL import Image
 
 import numpy as np
