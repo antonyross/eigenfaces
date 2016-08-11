@@ -71,9 +71,6 @@ class EigenFaces(object):
         # read_images  returns X as a list of arrays of the Images AND y as a list of labels
         [list_of_arrays_of_images, self.labels_list], list_of_matrices_of_flattened_class_samples = self.read_images(root_training_images_folder)
 
-        anImage = np.array(Image.fromarray(list_of_arrays_of_images[0]))
-        m,n = anImage.shape[0:2] # get the size of the images
-
          # create matrix to store all flattened images
         images_matrix = np.array([np.array(Image.fromarray(im)).flatten()
               for im in list_of_arrays_of_images],'f')
@@ -92,18 +89,20 @@ class EigenFaces(object):
 
         print(self.predict_face(ti))
 
-        #######################
+        anImage = np.array(Image.fromarray(list_of_arrays_of_images[0]))
+        m, n = anImage.shape[0:2] # get the size of the images
+        self.show_results(n, m)
+
+    def show_results(self, image_width, image_height):
         pylab.figure()
-
         pylab.gray()
-
         pylab.subplot(2, 4, 1)
-
-        pylab.imshow(self.mean_Image.reshape(m,n))
+        pylab.imshow(self.mean_Image.reshape(image_height, image_width))
 
         for i in range(7):
             pylab.subplot(2, 4, i+2)
-            pylab.imshow(self.eigenfaces_matrix[i].reshape(m, n))
+            pylab.imshow(self.eigenfaces_matrix[i].reshape(
+                image_height, image_width))
 
     def extract(self,X):
         X = np.asarray(X).reshape(-1, 1)
