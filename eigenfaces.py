@@ -87,14 +87,14 @@ class EigenFaces(object):
         numberOfClasses = len(list_of_matrices_of_flattened_class_samples)
 
         for i in range(numberOfClasses):
-            class_weights_vertex = self.projectImage(list_of_matrices_of_flattened_class_samples[i])
+            class_weights_vertex = self.project_image(list_of_matrices_of_flattened_class_samples[i])
             self.projected_classes.append(class_weights_vertex.mean(0))
 
         # get a target image and flatten it
-        target_images = self.getTargetImages()
+        target_images = self.get_target_images()
         ti = np.array(Image.open(target_images[0]), dtype = np.uint8).flatten()
 
-        print(self.predictFace(ti))
+        print(self.predict_face(ti))
 
         #######################
         pylab.figure()
@@ -111,9 +111,9 @@ class EigenFaces(object):
 
     def extract(self,X):
         X = np.asarray(X).reshape(-1,1)
-        return self.projectImage(X)
+        return self.project_image(X)
 
-    def projectImage(self, X):
+    def project_image(self, X):
         X = X - self.mean_Image
         return np.dot(X, self.eigenfacesMatrix.T)
 
@@ -121,14 +121,14 @@ class EigenFaces(object):
         X = np.dot(X, self.eigenfacesMatrix)
         return X + self.mean_Image
 
-    def getTargetImages(self):
+    def get_target_images(self):
         targetImageList = glob.glob('target_image/*.pgm')  # folder containing the traget image
         return targetImageList
 
-    def predictFace(self, X):
+    def predict_face(self, X):
         minClass = -1
         minDistance = np.finfo('float').max
-        projected_target = self.projectImage(X)
+        projected_target = self.project_image(X)
         # delete last array item, it's nan
         projected_target = np.delete(projected_target, -1)
         for i in range(len(self.projected_classes)):
@@ -141,10 +141,10 @@ class EigenFaces(object):
         img.show()
         return minClass
 
-    def predictRace(self, X):
+    def predict_race(self, X):
         return np.minTarget
 
-    def getClassAverageFromSamples(classSamples):
+    def get_class_average_from_samples(classSamples):
         m, n = np.array(classSamples).shape[1:3]
         l = len(classSamples)
         addSamplesTogether = np.zeros((m,n))
