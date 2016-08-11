@@ -31,20 +31,3 @@ def pca(X):
 
     # return the projection matrix, the variance and the mean
     return V,S,mean_X
-
-
-def center(X):
-    """        Center the square matrix X (subtract col and row means). """
-
-    n,m = X.shape
-    if n != m:
-            raise Exception('Matrix is not square.')
-
-    colsum = X.sum(axis=0) / n
-    rowsum = X.sum(axis=1) / n
-    totalsum = X.sum() / (n**2)
-
-    #center
-    Y = np.array([[ X[i,j]-rowsum[i]-colsum[j]+totalsum for i in range(n) ] for j in range(n)])
-
-    return Y
