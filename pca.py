@@ -5,7 +5,6 @@ def pca(X):
     """    Principal Component Analysis
         input: X, matrix with training data stored as flattened arrays in rows
         return: projection matrix (with most important dimensions first)."""
-
     # get dimensions
     num_data,dim = X.shape
 
@@ -20,7 +19,6 @@ def pca(X):
         tmp = np.dot(X.T,EV).T # this is the compact trick
         V = tmp[::-1] # reverse since last eigenvectors are the ones we want
         S = np.sqrt(e[::-1]) # reverse since eigenvalues are in increasing order
-
 
         for i in range(V.shape[1]):
             V[:,i] /= S
