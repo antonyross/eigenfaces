@@ -122,8 +122,7 @@ class EigenFaces(object):
         return X + self.mean_Image
 
     def get_target_images(self):
-        targetImageList = glob.glob('target_image/*.pgm')
-        return targetImageList
+        return glob.glob('target_image/*.pgm')
 
     def predict_face(self, X):
         minClass = -1
