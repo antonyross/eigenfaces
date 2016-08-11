@@ -40,7 +40,7 @@ class EigenFaces(object):
                 subject_path = os.path.join(dirname, subdirname)
                 classSamplesList = []
                 for filename in os.listdir(subject_path):
-                    if filename <> ".DS_Store":
+                    if filename != ".DS_Store":
                         try:
                             im = Image.open(os.path.join(subject_path, filename))
                             #im = im.convert("L")
