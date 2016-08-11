@@ -83,15 +83,17 @@ class EigenFaces(object):
             class_weights_vertex = self.project_image(class_sample)
             self.projected_classes.append(class_weights_vertex.mean(0))
 
-        # get a target image and flatten it
-        target_images = self.get_target_images()
-        ti = np.array(Image.open(target_images[0]), dtype = np.uint8).flatten()
-
-        print(self.predict_face(ti))
+        print(self.predict_face_in_image(0))
 
         anImage = np.array(Image.fromarray(list_of_arrays_of_images[0]))
         m, n = anImage.shape[0:2] # get the size of the images
         self.show_results(n, m)
+
+    def predict_face_in_image(self, image_nr):
+        target_images = self.get_target_images()
+        ti = np.array(Image.open(target_images[0]), dtype = np.uint8).flatten()
+
+        return self.predict_face(ti)
 
     def show_results(self, image_width, image_height):
         pylab.figure()
