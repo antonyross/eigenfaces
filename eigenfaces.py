@@ -79,8 +79,6 @@ class EigenFaces(object):
         # read_images  returns X as a list of arrays of the Images AND y as a list of labels
         [list_of_arrays_of_images, self.labels_list], list_of_matrices_of_flattened_class_samples = self.read_images(root_training_images_folder)
 
-
-
         anImage = np.array(Image.fromarray(list_of_arrays_of_images[0]))
         m,n = anImage.shape[0:2] # get the size of the images
 
@@ -88,11 +86,8 @@ class EigenFaces(object):
         images_matrix = np.array([np.array(Image.fromarray(im)).flatten()
               for im in list_of_arrays_of_images],'f')
 
-
         # perform PCA
         self.eigenfacesMatrix, variance, self.mean_Image = pca.pca(images_matrix)
-
-
 
         # Projecting each class sample (as class matrix) and then using the class average as the class weights for comparison with the Target image
         numberOfClasses = len(list_of_matrices_of_flattened_class_samples)
@@ -101,17 +96,11 @@ class EigenFaces(object):
             class_weights_vertex = self.projectImage(list_of_matrices_of_flattened_class_samples[i])
             self.projected_classes.append(class_weights_vertex.mean(0))
 
-
         # get a target image and flatten it
         target_images = self.getTargetImages()
         ti = np.array(Image.open(target_images[0]), dtype = np.uint8).flatten()
 
-
-
         print(self.predictFace(ti))
-
-
-
 
         #######################
         pylab.figure()
