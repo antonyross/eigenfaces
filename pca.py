@@ -1,5 +1,5 @@
-
 import numpy as np
+
 
 def pca(X):
   """  Principal Component Analysis
@@ -33,8 +33,6 @@ def pca(X):
   return V,S,mean_X
 
 
-
-
   def center(X):
     """    Center the square matrix X (subtract col and row means). """
 
@@ -50,5 +48,3 @@ def pca(X):
     Y = np.array([[ X[i,j]-rowsum[i]-colsum[j]+totalsum for i in range(n) ] for j in range(n)])
 
     return Y
-
-
