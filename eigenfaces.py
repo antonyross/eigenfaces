@@ -57,8 +57,6 @@ class EigenFaces(object):
 
                 y.append(subdirname)
 
-        self.number_of_classes = len(class_matrices_list)
-
         # returns the images as a List of arrays; returns the class matrices to be projected and averaged
         return [X, y], class_matrices_list
 
