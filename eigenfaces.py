@@ -15,7 +15,6 @@ class EigenFaces(object):
         self.labels_list = []
         list_of_matrices_of_flattened_class_samples = []
 
-        ti = []
         self.projected_classes = []
 
         self.list_of_arrays_of_images, self.labels_list, \
