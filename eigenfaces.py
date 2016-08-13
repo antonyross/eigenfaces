@@ -58,7 +58,7 @@ class EigenFaces(object):
                 y.append(subdirname)
 
         # returns the images as a List of arrays; returns the class matrices to be projected and averaged
-        return [X, y], class_matrices_list
+        return X, y, class_matrices_list
 
     def train(self, root_training_images_folder):
         list_of_arrays_of_images = []
@@ -69,7 +69,7 @@ class EigenFaces(object):
         self.projected_classes = []
 
         # read_images  returns X as a list of arrays of the Images AND y as a list of labels
-        [list_of_arrays_of_images, self.labels_list], list_of_matrices_of_flattened_class_samples = self.read_images(root_training_images_folder)
+        list_of_arrays_of_images, self.labels_list, list_of_matrices_of_flattened_class_samples = self.read_images(root_training_images_folder)
 
          # create matrix to store all flattened images
         images_matrix = np.array([np.array(Image.fromarray(im)).flatten()
