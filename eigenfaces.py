@@ -70,8 +70,8 @@ class EigenFaces(object):
         list_of_arrays_of_images, self.labels_list, list_of_matrices_of_flattened_class_samples = self.read_images(root_training_images_folder)
 
          # create matrix to store all flattened images
-        images_matrix = np.array([np.array(Image.fromarray(im)).flatten()
-              for im in list_of_arrays_of_images],'f')
+        images_matrix = np.array([np.array(Image.fromarray(img)).flatten()
+              for img in list_of_arrays_of_images],'f')
 
         # perform PCA
         self.eigenfaces_matrix, variance, self.mean_Image = pca.pca(images_matrix)
