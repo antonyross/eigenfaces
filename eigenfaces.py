@@ -11,10 +11,6 @@ import pca
 
 class EigenFaces(object):
     def train(self, root_training_images_folder):
-        self.list_of_arrays_of_images = []
-        self.labels_list = []
-        list_of_matrices_of_flattened_class_samples = []
-
         self.projected_classes = []
 
         self.list_of_arrays_of_images, self.labels_list, \
