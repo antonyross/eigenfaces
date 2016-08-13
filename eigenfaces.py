@@ -60,18 +60,20 @@ class EigenFaces(object):
         return images, image_labels, class_matrices_list
 
     def train(self, root_training_images_folder):
-        list_of_arrays_of_images = []
+        self.list_of_arrays_of_images = []
         self.labels_list = []
         list_of_matrices_of_flattened_class_samples = []
 
         ti = []
         self.projected_classes = []
 
-        list_of_arrays_of_images, self.labels_list, list_of_matrices_of_flattened_class_samples = self.read_images(root_training_images_folder)
+        self.list_of_arrays_of_images, self.labels_list, \
+            list_of_matrices_of_flattened_class_samples = \
+                self.read_images(root_training_images_folder)
 
          # create matrix to store all flattened images
         images_matrix = np.array([np.array(Image.fromarray(img)).flatten()
-              for img in list_of_arrays_of_images],'f')
+              for img in self.list_of_arrays_of_images],'f')
 
         # perform PCA
         self.eigenfaces_matrix, variance, self.mean_Image = pca.pca(images_matrix)
@@ -83,9 +85,7 @@ class EigenFaces(object):
 
         print(self.predict_face_in_image(0))
 
-        anImage = np.array(Image.fromarray(list_of_arrays_of_images[0]))
-        m, n = anImage.shape[0:2] # get the size of the images
-        self.show_results(n, m)
+        self.show_results()
 
     def predict_face_in_image(self, image_nr):
         target_images = self.get_target_images()
@@ -93,7 +93,10 @@ class EigenFaces(object):
 
         return self.predict_face(ti)
 
-    def show_results(self, image_width, image_height):
+    def show_results(self):
+        anImage = np.array(Image.fromarray(self.list_of_arrays_of_images[0]))
+        image_height, image_width = anImage.shape[0:2] # get the size of the images
+
         pylab.figure()
         pylab.gray()
         pylab.subplot(2, 4, 1)
