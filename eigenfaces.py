@@ -129,9 +129,6 @@ class EigenFaces(object):
             if distance < min_distance:
                 min_distance = distance
                 min_class = self.labels_list[i]
-        predicted_img = "training_images/%s/1.pgm" % (min_class)
-        img = Image.open(predicted_img)
-        img.show()
         return min_class
 
     def predict_race(self, X):
@@ -151,3 +148,9 @@ class EigenFaces(object):
 
     def __repr__(self):
         return "PCA (num_components=%d)" % (self._num_components)
+
+
+def show_image_for(img_class):
+    predicted_img = "training_images/%s/1.pgm" % (img_class)
+    img = Image.open(predicted_img)
+    img.show()
