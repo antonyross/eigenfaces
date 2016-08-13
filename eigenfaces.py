@@ -18,14 +18,14 @@ class EigenFaces(object):
             sz: A tuple with the size Resizes
 
         Returns:
-            A list [X,y]
-
-                X: The images, which is a Python list of numpy arrays.
-                y: The corresponding labels (the unique number of the subject, person).
+            A tuple of (images, image_labels, class_matrix_list) where
+                images: The images, which is a Python list of numpy arrays.
+                image_labels: The corresponding labels (the unique number of
+                the subject, person).
         """
         class_samples_list = []
         class_matrices_list = []
-        X, y = [], []
+        images, image_labels = [], []
         for dirname, dirnames, filenames in os.walk(path):
             for subdirname in dirnames:
                 subject_path = os.path.join(dirname, subdirname)
@@ -37,7 +37,7 @@ class EigenFaces(object):
                             # resize to given size (if given) e.g., sz = (480, 640)
                             if (sz is not None):
                                 im = im.resize(sz, Image.ANTIALIAS)
-                            X.append(np.asarray(im, dtype = np.uint8))
+                            images.append(np.asarray(im, dtype = np.uint8))
 
                         except IOError as e:
                             errno, strerror = e.args
@@ -55,10 +55,9 @@ class EigenFaces(object):
                  # adds each class matrix to this MASTER List
                 class_matrices_list.append(class_samples_matrix)
 
-                y.append(subdirname)
+                image_labels.append(subdirname)
 
-        # returns the images as a List of arrays; returns the class matrices to be projected and averaged
-        return X, y, class_matrices_list
+        return images, image_labels, class_matrices_list
 
     def train(self, root_training_images_folder):
         list_of_arrays_of_images = []
@@ -68,7 +67,6 @@ class EigenFaces(object):
         ti = []
         self.projected_classes = []
 
-        # read_images  returns X as a list of arrays of the Images AND y as a list of labels
         list_of_arrays_of_images, self.labels_list, list_of_matrices_of_flattened_class_samples = self.read_images(root_training_images_folder)
 
          # create matrix to store all flattened images
